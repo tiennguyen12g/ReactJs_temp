@@ -8,7 +8,8 @@ import TableWithDragColumn from "./tables/TableWithDragColumn";
 import TableCommon from "./tables/TableCommon";
 import Search from "./searchs/Search";
 import Input from "./inputs/Input";
-
+import GroupButton from "./buttons/GroupButton";
+import ButtonCommon from "./buttons/ButtonCommon";
 export {
     GradientButton,
     Select,
@@ -20,4 +21,6 @@ export {
     TableCommon,
     Search,
     Input,
+    GroupButton,
+    ButtonCommon,
 }

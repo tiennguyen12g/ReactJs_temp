@@ -10,6 +10,8 @@ import {
   SelectGray,
   ButtonBorderGradient,
   GradientButton,
+  GroupButton,
+  ButtonCommon,
 } from "./style_components/StyleComponents";
 import { type TableHeader } from "./style_components/tables/TableWithDragColumn";
 import TestSeriUi from "./components/ui/Test";
@@ -49,7 +51,6 @@ export default function Test() {
       <Dropdown label="Actions" items={["Edit", "Delete", "Share"]} onSelect={(item) => console.log(item)} />
       <h3 className="text-[26px] font-[700]">5. My custom button</h3>
       <div>
-        
         <ButtonBorderGradient variant="purpleBlue">Purple</ButtonBorderGradient>
         <ButtonBorderGradient variant="cyanBlue">Purple</ButtonBorderGradient>
         <ButtonBorderGradient variant="greenBlue">Purple</ButtonBorderGradient>
@@ -59,17 +60,39 @@ export default function Test() {
       </div>
       <div>
         // Custom gradients with hover effect
-<GradientButton variant="purple">Purple Button</GradientButton>
-<GradientButton variant="orange">Orange Button</GradientButton>
-<GradientButton variant="blue">Blue Button</GradientButton>
-
-// Tailwind variants
-<GradientButton variant="purpleBlue">Purple to Blue</GradientButton>
-<GradientButton variant="cyanBlue">Cyan to Blue</GradientButton>
+        <GradientButton variant="purple">Purple Button</GradientButton>
+        <GradientButton variant="orange">Orange Button</GradientButton>
+        <GradientButton variant="blue">Blue Button</GradientButton>
+        // Tailwind variants
+        <GradientButton variant="purpleBlue">Purple to Blue</GradientButton>
+        <GradientButton variant="cyanBlue">Cyan to Blue</GradientButton>
         <GradientButton variant="greenBlue">Purple</GradientButton>
         <GradientButton variant="purplePink">Purple</GradientButton>
         <GradientButton variant="tealLime">Purple</GradientButton>
         <GradientButton variant="redYellow">Purple</GradientButton>
+      </div>
+      <div className="bg-gray-200 px-2 py-1 rounded-sm w-fit max-w-full">
+        <GroupButton
+          options={[
+            { key: "day", label: "Day" },
+            { key: "week", label: "Week" },
+            { key: "month", label: "Month" },
+          ]}
+          defaultValue="day"
+          onChange={(key, option) => console.log(key, option)}
+        />
+      </div>
+      <div className="flex gap-2.5">
+        <ButtonCommon>Hello</ButtonCommon>
+        <ButtonCommon variant="continue">Continue</ButtonCommon>
+        <ButtonCommon variant="delete">Delete</ButtonCommon>
+        <ButtonCommon variant="next">Next</ButtonCommon>
+        <ButtonCommon variant="agree">Agree</ButtonCommon>
+        <ButtonCommon variant="cancel">Cancel</ButtonCommon>
+        <ButtonCommon variant="back">Back</ButtonCommon>
+        <ButtonCommon variant="submit">Submit</ButtonCommon>
+        <ButtonCommon variant="warning">Warning</ButtonCommon>
+        <ButtonCommon variant="info">Info</ButtonCommon>
       </div>
       <h3 className="text-[26px] font-[700]">5. Search</h3>
       // Basic usage
@@ -94,12 +117,8 @@ export default function Test() {
       <Input leftIcon={<FaUserCircle />} rightIcon={<FaCheck />} placeholder="Username" />
       // With clear button
       <Input showClearButton placeholder="Type something..." onChange={setValue as any} />
-            <h3 className="text-[26px] font-[700]">5. Table</h3>
-            <TableCommon 
-            data={commonTableData} 
-            pageSize={5} 
-            initialColumnWidths={{0: "150px", 1: "260px", 2: "140px"}}
-            />
+      <h3 className="text-[26px] font-[700]">5. Table</h3>
+      <TableCommon data={commonTableData} pageSize={5} initialColumnWidths={{ 0: "150px", 1: "260px", 2: "140px" }} />
       <div className="overflow-hidden rounded-lg border border-gray-300 z-[11] my-[10px]">
         <TableWithResizeColumn
           data={tableData}
@@ -151,8 +170,8 @@ const data = {
   // rowIds: ["r1","r2","r3", ...]
 };
 const commonTableData = {
-    headers: [
-    { key: "name", label: "Name", sticky: true,width:120, align: "center" },
+  headers: [
+    { key: "name", label: "Name", sticky: true, width: 120, align: "center" },
     { key: "role", label: "Role", width: 120, align: "right" },
     { key: "status", label: "Status", width: 120, align: "left" },
     { key: "age", label: "Age", width: 80 },
@@ -160,7 +179,7 @@ const commonTableData = {
     { key: "company", label: "Company", width: 200 },
   ] as TableHeader[],
   rows: [
-        {
+    {
       id: "1",
       name: "John Doe",
       role: "Owner",
@@ -205,8 +224,8 @@ const commonTableData = {
       address: "99 Berlin Street",
       joined: "2019-08-12",
     },
-  ]
-}
+  ],
+};
 export const tableData = {
   headers: [
     { key: "select", label: "", type: "checkbox", sticky: true, width: 50 },
