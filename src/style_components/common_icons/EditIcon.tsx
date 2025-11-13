@@ -1,0 +1,18 @@
+import React from 'react';
+import clsx from "clsx";
+import { MdModeEditOutline } from "react-icons/md";
+interface Props {
+  className?: string;           // e.g. "text-gray-600 hover:text-gray-900"
+  size?: number;
+  onClick?: () => void;
+}
+export default function CloseIcon({ className, size = 14, onClick }: Props) {
+  return (
+    <MdModeEditOutline
+      size={size}
+      onClick={onClick}
+      // do NOT pass color prop, use tailwind text classes instead
+      className={clsx("cursor-pointer transition-colors", className)}
+    />
+  );
+}

@@ -31,7 +31,7 @@ export default function Dropdown({ label, items, onSelect, className }: Dropdown
       </button>
 
       {open && (
-        <div className="absolute mt-2 w-40 bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-300 rounded-lg shadow-xl z-20 overflow-hidden">
+        <div className="absolute mt-2 w-40 bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-300 rounded-lg shadow-xl z-[200] overflow-hidden">
           {items.map((item) => (
             <div
               key={item}

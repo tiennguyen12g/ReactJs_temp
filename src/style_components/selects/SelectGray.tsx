@@ -19,7 +19,7 @@ interface SelectProps {
   isUsePlaceHolder?: boolean;
 }
 
-export default function Select({ label, options, value, onChange, className, fullWidth, disabled, placeHolder = "Select an option" }: SelectProps) {
+export default function SelectGray({ label, options, value, onChange, className, fullWidth, disabled, placeHolder = "Select an option" }: SelectProps) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<"top" | "bottom">("bottom");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -74,13 +74,14 @@ export default function Select({ label, options, value, onChange, className, ful
         disabled={disabled}
         onClick={() => !disabled && setOpen(!open)}
         className={`
-          w-full bg-gradient-to-br from-orange-50 to-orange-100 text-gray-900 px-2.5 py-1.5 rounded-sm 
-          border-1 border-orange-300 focus:outline-none focus:border-orange-500 focus:ring-2 
-          focus:ring-orange-400/50 transition-all duration-200
+          w-full bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 px-2.5 py-1.5 rounded-sm 
+          border border-gray-300 outline-none 
+               focus:outline-none focus:ring-1 focus:ring-blue-300 focus:border-blue-500
+           transition-all duration-200
           disabled:opacity-50 disabled:cursor-not-allowed 
-          hover:border-orange-400
+          hover:border-gray-400
           flex items-center justify-between
-          ${open ? "border-orange-500 ring-2 ring-orange-400/50" : ""}
+
         `}
       >
         <FcFilledFilter size={20} />
@@ -93,7 +94,7 @@ export default function Select({ label, options, value, onChange, className, ful
           ref={dropdownRef}
           className={`
             absolute left-0 right-0 z-[200] mt-1 mb-1
-            bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-300 
+            bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 
             rounded-lg shadow-xl overflow-hidden
             ${position === "top" ? "bottom-full mb-1 mt-0" : "top-full"}
           `}
@@ -105,7 +106,7 @@ export default function Select({ label, options, value, onChange, className, ful
                     px-2.5 py-1.5 text-gray-900 cursor-pointer transition-colors duration-150
                     flex items-center
                     border-b-1 border-b-gray-300
-                    hover:bg-gradient-to-r hover:from-orange-100 hover:to-orange-200
+                    hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-200
                   `}
             >
               <FaCheck color="transparent" />
@@ -120,8 +121,8 @@ export default function Select({ label, options, value, onChange, className, ful
                   className={`
                     px-2.5 py-1.5 text-gray-900 cursor-pointer transition-colors duration-150
                     flex items-center
-                    ${isSelected ? "bg-gradient-to-r from-orange-100 to-orange-200 font-medium" : ""}
-                    hover:bg-gradient-to-r hover:from-orange-100 hover:to-orange-200
+                    ${isSelected ? "bg-gradient-to-r from-gray-100 to-gray-200 font-medium" : ""}
+                    hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-200
                   `}
                 >
                   {isSelected ? <FaCheck size={22} className="h-4 w-4 text-[#00bb19] flex-shrink-0" /> : <FaCheck color="transparent" />}
