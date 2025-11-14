@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, forwardRef } from "react";
 import { useDebounce } from "../../hooks/common_hooks/useDebounce";
-
+import { iconSizeClasses } from "@tnbt-style-custom";
+import clsx from "clsx";
 interface InputProps {
   type?: "text" | "email" | "password" | "number" | "tel" | "url" | "search";
   value?: string;
@@ -22,15 +23,22 @@ interface InputProps {
   debounceMs?: number;
   error?: string;
   helperText?: string;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  leftIcon?: React.ReactNode | React.ComponentType<{ className?: string }>;
+  rightIcon?: React.ReactNode | React.ComponentType<{ className?: string }>;
+    iconClass?: string;
   showClearButton?: boolean;
   maxLength?: number;
   min?: string | number;
   max?: string | number;
   step?: string | number;
+  size?: "sm" | "md" | "lg";
 }
 
+const sizeClasses = {
+  sm: "py-1.25 text-sm",
+  md: "py-1.75 text-base",
+  lg: "py-2.25 text-lg",
+};
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
@@ -56,11 +64,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       helperText,
       leftIcon,
       rightIcon,
+      iconClass,
       showClearButton = false,
       maxLength,
       min,
       max,
       step,
+      size = "sm",
     },
     ref
   ) => {
@@ -115,6 +125,31 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const hasLeftIcon = leftIcon !== undefined;
     const hasRightIcon = rightIcon !== undefined || (showClearButton && value);
 
+    // Helper function to render icon (handles both component types and ReactNode)
+    const renderIcon = (icon: React.ReactNode | React.ComponentType<{ className?: string }> | undefined, iconClass?: string) => {
+      if (!icon) return null;
+
+      // If it's already a ReactNode (rendered element), use it directly
+      if (React.isValidElement(icon)) {
+        return icon;
+      }
+
+      // If it's a component type (function), render it
+      if (typeof icon === "function") {
+        const IconComponent = icon;
+        return <IconComponent className={iconClass} />;
+      }
+
+      return icon;
+    };
+
+  const iconClassName = clsx(
+    iconSizeClasses[size],
+
+    // "transition-transform duration-200 ease-in-out",
+    // !disabled && "group-hover:scale-[1.2]",
+    iconClass
+  );
     return (
       <div className={`${fullWidth ? "w-full" : ""} ${className || ""}`}>
         {label && (
@@ -126,11 +161,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative">
           {/* Left Icon */}
-          {hasLeftIcon && (
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              {leftIcon}
-            </div>
-          )}
+          {hasLeftIcon && <div className="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">{renderIcon(leftIcon, iconClassName)}</div>}
 
           {/* Input */}
           <input
@@ -151,7 +182,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             max={max}
             step={step}
             className={`
-              w-full py-1.5 rounded-sm
+              w-full rounded-sm
               bg-gray-50 border border-gray-300
               text-gray-900 placeholder-gray-400
             focus:outline-none focus:ring-1 focus:ring-blue-300 focus:border-blue-500
@@ -163,50 +194,37 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               ${hasRightIcon ? "pr-10" : "pr-3"}
               ${error ? "border-red-300 focus:border-red-500 focus:ring-red-400" : ""}
               ${inputClassName || ""}
+              ${sizeClasses[size]}
             `}
           />
 
           {/* Right Icon or Clear Button */}
           {hasRightIcon && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center">
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center pointer-events-none">
               {showClearButton && value ? (
                 <button
                   type="button"
                   onClick={handleClear}
                   disabled={disabled}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1 rounded"
+                  className="text-gray-400 hover:text-gray-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-1 rounded pointer-events-auto"
                   aria-label="Clear input"
                 >
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               ) : (
-                rightIcon
+                <span className="text-gray-400">{renderIcon(rightIcon, iconClassName)}</span>
               )}
             </div>
           )}
         </div>
 
         {/* Error Message */}
-        {error && (
-          <p className="mt-1 text-sm text-red-600">{error}</p>
-        )}
+        {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
 
         {/* Helper Text */}
-        {helperText && !error && (
-          <p className="mt-1 text-sm text-gray-500">{helperText}</p>
-        )}
+        {helperText && !error && <p className="mt-1 text-sm text-gray-500">{helperText}</p>}
       </div>
     );
   }

@@ -18,7 +18,7 @@ const defaultAffectedItems = [
   "Keyboard shortcuts",
 ];
 
-export default function ResetSettingsModal({
+export default function ConfirmResetSettings({
   isModalOpen,
   setIsModalOpen,
   onConfirm = () => {},

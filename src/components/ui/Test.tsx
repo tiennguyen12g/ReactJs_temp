@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "./button";
-import { ConfirmDelete, BaseNotification, ConfirmLogout, ResetSettingsModal, AnimatedInfoModal } from "../ui/custom_modals/CustomModals";
+import { ConfirmDelete, ConfirmLogout, AnimatedInfoModal } from "@tnbt-style-custom";
 import Notification from "./toast";
 import Modal from "./modal";
 import TestToast from "./TestToast";
@@ -70,22 +70,60 @@ export default function TestSeriUi() {
 
   return (
     <div className="space-y-6">
-      <h3 className="text-[26px] font-[700]">1. Toast SeraUi</h3>
+      <h3 className="text-[26px] font-[700]">2. Toast SeraUi</h3>
       <TestToast />
-      <BaseNotification setIsModalOpen={setIsNotificationOpen} isModalOpen={isNotificationOpen} content={msg ?? ""} />
-      <Button onClick={() => handleNodify()}>Test notify</Button>
-      <Notification
-        type="success"
-        title="Success!"
-        message="Operation completed successfully."
-        showIcon={true}
-        duration={3000}
-        onClose={() => console.log("Closed")}
-        position="top-center"
-        className="bg-purple-500 border-purple-600"
-      />
+      <div className="flex justify-between ">
+        <Notification
+          type="success"
+          title="Success!"
+          message="Operation completed successfully."
+          showIcon={true}
+          duration={3000}
+          onClose={() => console.log("Closed")}
+          position="top-center"
+        />
+        <Notification
+          type="error"
+          title="Error!"
+          message="Operation completed successfully."
+          showIcon={true}
+          duration={3000}
+          onClose={() => console.log("Closed")}
+          position="top-center"
+        />
+        <Notification
+          type="info"
+          title="Info!"
+          message="Operation completed successfully."
+          showIcon={true}
+          duration={3000}
+          onClose={() => console.log("Closed")}
+          position="top-center"
+        />
+      </div>
+      <div className="flex justify-between ">
+        <Notification
+          type="warning"
+          title="Warning!"
+          message="Operation completed successfully."
+          showIcon={true}
+          duration={3000}
+          onClose={() => console.log("Closed")}
+          position="top-center"
+        />
+        <Notification
+          type="loading"
+          title="Loading!"
+          message="Operation completed successfully."
+          showIcon={true}
+          duration={3000}
+          onClose={() => console.log("Closed")}
+          position="top-center"
+        />
+      </div>
+
       <div className="space-y-3">
-        <h3 className="text-[26px] font-[700]">2. Animation Modals</h3>
+        <h3 className="text-[26px] font-[700]">3. Animation Modals</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {(Object.keys(animationConfigs) as AnimationType[]).map((key) => (
             <Button key={key} onClick={() => setActiveAnimation(key)} className="w-full" variant="outline">
@@ -110,26 +148,6 @@ export default function TestSeriUi() {
           />
         );
       })}
-      <h3 className="text-[26px] font-[700]">3. Confirm</h3>
-      <div className="flex flex-wrap gap-3">
-        <ConfirmDelete onExcute={handleDelete} setIsModalOpen={setIsDeleteOpen} isModalOpen={isDeleteOpen} />
-
-        <Button onClick={() => setIsLogoutOpen(true)} className="bg-orange-500 hover:bg-orange-600">
-          Logout Prompt
-        </Button>
-
-        <Button onClick={() => setIsResetOpen(true)} className="bg-yellow-500 hover:bg-yellow-600">
-          Reset Settings
-        </Button>
-        <button onClick={() => setIsOpen(true)}>Open Modal</button>
-      </div>
-
-      <ConfirmLogout isModalOpen={isLogoutOpen} setIsModalOpen={setIsLogoutOpen} onConfirm={handleLogout} />
-      <ResetSettingsModal isModalOpen={isResetOpen} setIsModalOpen={setIsResetOpen} onConfirm={handleReset} />
-
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="My Modal" size="md" animation="fade">
-        <p>Modal content goes here...</p>
-      </Modal>
     </div>
   );
 }

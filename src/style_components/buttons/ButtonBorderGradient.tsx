@@ -3,19 +3,12 @@ import clsx from "clsx";
 
 interface ButtonBorderGradientProps {
   children: React.ReactNode;
-  variant?:
-    | "purpleBlue"
-    | "cyanBlue"
-    | "greenBlue"
-    | "purplePink"
-    | "pinkOrange"
-    | "tealLime"
-    | "redYellow"
-    | string;
+  variant?: "purpleBlue" | "cyanBlue" | "greenBlue" | "purplePink" | "pinkOrange" | "tealLime" | "redYellow" | string;
   onClick?: () => void;
   padding?: string;
   rounded?: string;
   className?: string;
+  size?: "sm" | "md" | "lg";
 }
 
 const variants: Record<string, string> = {
@@ -27,20 +20,24 @@ const variants: Record<string, string> = {
   tealLime: "from-teal-300 to-lime-300",
   redYellow: "from-red-200 via-red-300 to-yellow-200",
 };
-
+const sizeClasses = {
+  sm: "px-2 py-1 text-sm",
+  md: "px-3 py-1.5 text-base",
+  lg: "px-4 py-2 text-lg",
+};
 export default function ButtonBorderGradient({
   children,
   variant = "purpleBlue",
   onClick,
-  padding = "px-5 py-2.5",
-  rounded = "rounded-lg",
   className,
+  size = "sm",
 }: ButtonBorderGradientProps) {
+  const rounded = `rounded-md`;
   return (
     <button
       onClick={onClick}
       className={clsx(
-        "relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden",
+        "relative inline-flex items-center justify-center p-0.5 overflow-hidden",
         "text-sm font-medium text-gray-900 group",
         `bg-gradient-to-br ${variants[variant]}`,
         "hover:text-white dark:text-white",
@@ -51,9 +48,10 @@ export default function ButtonBorderGradient({
       <span
         className={clsx(
           "relative transition-all ease-in duration-75",
-          "bg-white dark:bg-gray-900 rounded-md",
+          "bg-white dark:bg-gray-900 ",
           "group-hover:bg-transparent group-hover:dark:bg-transparent",
-          padding,
+          "rounded-sm",
+          sizeClasses[size],
           className
         )}
       >

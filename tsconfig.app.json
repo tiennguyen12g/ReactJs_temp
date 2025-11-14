@@ -16,6 +16,13 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path aliases */
+    // "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@tnbt-style-custom": ["./src/style_components/StyleComponents"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

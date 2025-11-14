@@ -17,9 +17,9 @@ interface GroupButtonProps {
 }
 
 const sizeClasses = {
-  sm: "px-2 py-1 text-sm",
-  md: "px-2.5 py-1.5 text-base",
-  lg: "px-3 py-2 text-lg",
+  sm: "px-2 py-0.75 text-sm",
+  md: "px-2.5 py-1.25 text-base",
+  lg: "px-3 py-1.75 text-lg",
 };
 
 export default function GroupButton({

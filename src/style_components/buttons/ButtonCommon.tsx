@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { icons } from "../icons/Icons";
 
 interface ButtonCommonProps {
   children: React.ReactNode;
@@ -20,19 +21,22 @@ interface ButtonCommonProps {
   fullWidth?: boolean;
   className?: string;
   type?: "button" | "submit" | "reset";
+  icon?: React.ReactNode | React.ComponentType<{ className?: string }> | keyof typeof icons;
+  iconPosition?: "left" | "right";
+  iconClass?: string;
 }
 
 const sizeClasses = {
-  sm: "px-2 py-1 text-sm",
+  sm: "px-2.5 py-1.5 text-sm",
   md: "px-3 py-2 text-base",
-  lg: "px-4 py-2.5 text-lg",
+  lg: "px-4.5 py-2.5 text-lg",
 };
 
 const variantClasses = {
   default: "bg-gray-200 hover:bg-gray-300 text-gray-900",
   continue: "bg-green-500 hover:bg-green-600 text-white",
   agree: "bg-green-500 hover:bg-green-600 text-white",
-  delete: "bg-red-300 hover:bg-red-400 text-white",
+  delete: "bg-red-400 hover:bg-red-600 text-white",
   cancel: "bg-gray-300 hover:bg-gray-400 text-gray-900",
   next: "bg-sky-400 hover:bg-sky-500 text-white",
   back: "bg-gray-300 hover:bg-gray-400 text-gray-900",
@@ -50,16 +54,65 @@ export default function ButtonCommon({
   fullWidth = false,
   className,
   type = "button",
+  icon,
+  iconPosition = "left",
+  iconClass,
 }: ButtonCommonProps) {
+  // Icon size based on button size
+  const iconSizeClasses = {
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6",
+  };
+
+  // Spacing between icon and text
+  const iconSpacing = iconPosition === "left" ? "mr-2" : "ml-2";
+
+  // Helper function to render icon (handles string keys, component types, and ReactNode)
+  const renderIcon = (
+    icon: React.ReactNode | React.ComponentType<{ className?: string }> | keyof typeof icons | undefined,
+    className?: string
+  ) => {
+    if (!icon) return null;
+
+    // If it's already a ReactNode (rendered element), use it directly
+    if (React.isValidElement(icon)) {
+      return icon;
+    }
+
+    // If it's a string key from icons object, get the component
+    if (typeof icon === "string" && icon in icons) {
+      const IconComponent = icons[icon as keyof typeof icons];
+      return <IconComponent className={className} />;
+    }
+
+    // If it's a component type (function), render it
+    if (typeof icon === "function") {
+      const IconComponent = icon;
+      return <IconComponent className={className} />;
+    }
+
+    return icon;
+  };
+
+  const iconClassName = clsx(
+    iconSizeClasses[size],
+    iconSpacing,
+    "transition-transform duration-200 ease-in-out",
+    !disabled && "group-hover:scale-[1.2]",
+    iconClass
+  );
+
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
       className={clsx(
-        "rounded-sm font-medium transition-all duration-200",
+        "group rounded-sm font-medium transition-all duration-200 h-fit",
         "focus:outline-none focus:ring-2 focus:ring-offset-2",
         "disabled:opacity-50 disabled:cursor-not-allowed",
+        "flex items-center justify-center",
         sizeClasses[size],
         variantClasses[variant],
         fullWidth && "w-full",
@@ -78,7 +131,9 @@ export default function ButtonCommon({
         className
       )}
     >
-      {children}
+      {icon && iconPosition === "left" && renderIcon(icon, iconClassName)}
+      <span className="flex justify-center items-center gap-2.5">{children}</span>
+      {icon && iconPosition === "right" && renderIcon(icon, iconClassName)}
     </button>
   );
 }

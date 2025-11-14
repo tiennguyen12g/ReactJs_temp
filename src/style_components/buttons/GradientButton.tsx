@@ -26,11 +26,17 @@ interface GradientButtonProps {
   onClick?: () => void;
 }
 
+// const sizeClasses = {
+//   sm: "text-sm px-3 py-1.5",
+//   md: "text-base px-4 py-2",
+//   lg: "text-lg px-6 py-1.5",
+// };
 const sizeClasses = {
-  sm: "text-sm px-3 py-1.5",
-  md: "text-base px-4 py-2",
-  lg: "text-lg px-6 py-1.5",
+  sm: "px-2.5 py-1.5 text-sm",
+  md: "px-3 py-2 text-base",
+  lg: "px-4.5 py-2.5 text-lg",
 };
+
 
 // Tailwind gradient variants
 const tailwindVariants: Record<string, string> = {
@@ -62,7 +68,7 @@ const customGradients: Record<string, { gradient: string; hoverGradient: string 
 export default function GradientButton({
   children,
   variant = "orange",
-  size = "md",
+  size = "sm",
   padding,
   margin,
   border,
@@ -102,7 +108,7 @@ export default function GradientButton({
       }}
       className={clsx(
         // Base styles
-        "text-white font-semibold shadow-md transition-all duration-300 active:scale-95",
+        "text-white font-semibold shadow-md transition-all duration-300 active:scale-95 h-fit",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         
         // Tailwind gradient variants
@@ -116,7 +122,7 @@ export default function GradientButton({
         padding && padding,
         margin && margin,
         border && border,
-        rounded ?? "rounded-lg",
+        rounded ?? "rounded-sm",
 
         className
       )}

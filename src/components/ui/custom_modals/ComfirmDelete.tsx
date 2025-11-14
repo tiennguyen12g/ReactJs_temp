@@ -6,8 +6,9 @@ interface Props {
   onExcute?: () => void;
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  content: string;
 }
-export default function ConfirmDelete({ onExcute = () => {}, isModalOpen, setIsModalOpen }: Props) {
+export default function ConfirmDelete({ onExcute = () => {}, isModalOpen, setIsModalOpen, content }: Props) {
   const handleConfirm = () => {
     onExcute();
     setIsModalOpen(false);
@@ -15,9 +16,6 @@ export default function ConfirmDelete({ onExcute = () => {}, isModalOpen, setIsM
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} variant="destructive">
-        Delete
-      </Button>
       {/* Delete Confirmation Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Delete" size="sm">
         <div className="space-y-4">
@@ -32,8 +30,8 @@ export default function ConfirmDelete({ onExcute = () => {}, isModalOpen, setIsM
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Are you sure?</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">This action cannot be undone. This will permanently delete and remove all data.</p>
+              <h3 className="text-md font-sm text-gray-700 dark:text-gray-100">Are you sure?</h3>
+              <p className="text-md font-medium text-gray-900 dark:text-gray-400">{content}</p>
             </div>
           </div>
 
@@ -50,7 +48,7 @@ export default function ConfirmDelete({ onExcute = () => {}, isModalOpen, setIsM
               </div>
               <div className="ml-3">
                 <p className="text-sm text-red-700 dark:text-red-300">
-                  <strong>Warning:</strong> This is a destructive action that cannot be reversed.
+                  <strong>Warning:</strong> This action cannot be undone. This will permanently delete.
                 </p>
               </div>
             </div>

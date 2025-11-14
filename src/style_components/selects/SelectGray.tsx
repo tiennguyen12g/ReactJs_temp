@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { FaCheck, FaChevronDown } from "react-icons/fa6";
 import { FcFilledFilter } from "react-icons/fc";
-
+import clsx from "clsx";
 interface Option {
   key: string;
   label: string;
@@ -17,9 +17,25 @@ interface SelectProps {
   disabled?: boolean;
   placeHolder?: string;
   isUsePlaceHolder?: boolean;
+  size?: "sm" | "md" | "lg";
 }
+const sizeClasses = {
+  sm: "px-2.5 py-1.25 text-sm",
+  md: "px-3 py-1.75 text-base",
+  lg: "px-4.5 py-2.25 text-lg",
+};
 
-export default function SelectGray({ label, options, value, onChange, className, fullWidth, disabled, placeHolder = "Select an option" }: SelectProps) {
+export default function SelectGray({
+  label,
+  options,
+  value,
+  onChange,
+  className,
+  fullWidth,
+  disabled,
+  placeHolder = "Select an option",
+  size = "sm",
+}: SelectProps) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<"top" | "bottom">("bottom");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -66,23 +82,25 @@ export default function SelectGray({ label, options, value, onChange, className,
   };
 
   return (
-    <div className={`relative ${fullWidth ? "w-full" : ""} ${className || ""}`} ref={containerRef}>
+    <div className={clsx(`relative ${fullWidth ? "w-full" : ""} ${className || ""}`)} ref={containerRef}>
       {label && <label className="block mb-1 text-sm font-medium text-gray-200">{label}</label>}
       <button
         ref={buttonRef}
         type="button"
         disabled={disabled}
         onClick={() => !disabled && setOpen(!open)}
-        className={`
-          w-full bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 px-2.5 py-1.5 rounded-sm 
+        className={clsx(
+          `
+          w-full bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 rounded-sm 
           border border-gray-300 outline-none 
                focus:outline-none focus:ring-1 focus:ring-blue-300 focus:border-blue-500
            transition-all duration-200
           disabled:opacity-50 disabled:cursor-not-allowed 
           hover:border-gray-400
           flex items-center justify-between
-
-        `}
+        `,
+          sizeClasses[size]
+        )}
       >
         <FcFilledFilter size={20} />
         <span className="truncate">{displayLabel}</span>
@@ -136,15 +154,3 @@ export default function SelectGray({ label, options, value, onChange, className,
     </div>
   );
 }
-
-// ex:
-//       <Select
-//         label="Select Country"
-//         value={country}
-//         onChange={setCountry}
-//         options={[
-//           { key: "vn", label: "Vietnam" },
-//           { key: "us", label: "USA" },
-//           { key: "jp", label: "Japan" },
-//         ]}
-//       />

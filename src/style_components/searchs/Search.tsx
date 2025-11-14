@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { useDebounce } from "../../hooks/common_hooks/useDebounce";
+import clsx from "clsx";
 
 interface SearchProps {
   value?: string;
@@ -12,8 +13,13 @@ interface SearchProps {
   debounceMs?: number;
   showClearButton?: boolean;
   disabled?: boolean;
+  size?: "sm" | "md" | "lg";
 }
-
+const sizeClasses = {
+  sm: "px-2.5 py-1.25 text-sm",
+  md: "px-3 py-1.75 text-base",
+  lg: "px-4.5 py-2.25 text-lg",
+};
 export default function Search({
   value: controlledValue,
   onChange,
@@ -24,6 +30,7 @@ export default function Search({
   debounceMs = 500,
   showClearButton = true,
   disabled = false,
+  size = "sm",
 }: SearchProps) {
   const [internalValue, setInternalValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -85,8 +92,9 @@ export default function Search({
           onKeyDown={handleKeyDown}
           disabled={disabled}
           placeholder={placeholder}
-          className={`
-            w-full pl-10 pr-2.5 py-1.5 rounded-sm
+          className={clsx(
+            `
+            w-full pl-10 rounded-sm
             bg-gray-50 border border-gray-300
             text-gray-900 placeholder-gray-400
             focus:outline-none focus:ring-1 focus:ring-blue-300 focus:border-blue-500
@@ -94,7 +102,9 @@ export default function Search({
             disabled:opacity-50 disabled:cursor-not-allowed
             hover:border-gray-400
             ${showClearButton && value ? "pr-10" : ""}
-          `}
+          `, 
+          sizeClasses[size]
+          )}
         />
 
         {/* Clear Button */}
